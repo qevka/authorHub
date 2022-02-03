@@ -1,0 +1,28 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Author _$AuthorFromJson(Map<String, dynamic> json) => Author()
+  ..type = $enumDecode(_$DataTypeEnumMap, json['type'])
+  ..id = json['id'] as String
+  ..attributes =
+      AuthorAttributes.fromJson(json['attributes'] as Map<String, dynamic>)
+  ..relationships = json['relationships'] as Map<String, dynamic>
+  ..links = json['links'] as Map<String, dynamic>;
+
+Map<String, dynamic> _$AuthorToJson(Author instance) => <String, dynamic>{
+      'type': _$DataTypeEnumMap[instance.type],
+      'id': instance.id,
+      'attributes': instance.attributes,
+      'relationships': instance.relationships,
+      'links': instance.links,
+    };
+
+const _$DataTypeEnumMap = {
+  DataType.photos: 'photos',
+  DataType.authors: 'authors',
+  DataType.countries: 'countries',
+  DataType.books: 'books',
+  DataType.series: 'series',
+  DataType.chapters: 'chapters',
+};

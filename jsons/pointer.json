@@ -1,0 +1,9 @@
+{
+  "@meta": {
+    "import": [
+      "enums/data_types.dart"
+    ]
+  },
+  "type": "$dataType",
+  "id": "9"
+}

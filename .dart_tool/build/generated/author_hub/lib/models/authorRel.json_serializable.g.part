@@ -1,0 +1,12 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+AuthorRel _$AuthorRelFromJson(Map<String, dynamic> json) => AuthorRel()
+  ..photos = json['photos'] as Map<String, dynamic>
+  ..books = json['books'] as Map<String, dynamic>;
+
+Map<String, dynamic> _$AuthorRelToJson(AuthorRel instance) => <String, dynamic>{
+      'photos': instance.photos,
+      'books': instance.books,
+    };

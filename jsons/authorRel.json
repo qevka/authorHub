@@ -1,0 +1,26 @@
+{
+"photos": {
+"data": [
+{
+"type": "photos",
+"id": "9"
+}
+]
+},
+"books": {
+"data": [
+{
+"type": "books",
+"id": "1"
+},
+{
+"type": "books",
+"id": "3"
+},
+{
+"type": "books",
+"id": "36"
+}
+]
+}
+}

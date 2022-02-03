@@ -1,0 +1,22 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'authorAttributes.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+AuthorAttributes _$AuthorAttributesFromJson(Map<String, dynamic> json) =>
+    AuthorAttributes()
+      ..name = json['name'] as String
+      ..birthplace = json['birthplace'] as String
+      ..date_of_birth = json['date_of_birth'] as String
+      ..date_of_death = json['date_of_death'] as String;
+
+Map<String, dynamic> _$AuthorAttributesToJson(AuthorAttributes instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'birthplace': instance.birthplace,
+      'date_of_birth': instance.date_of_birth,
+      'date_of_death': instance.date_of_death,
+    };

@@ -24,11 +24,11 @@ class AuthorsProvider extends GetConnect {
 
   Future<Book> getBooks({int forPage}) {}
 
-  Future<Author> getAuthor({int forID}){}
+  // https://jsonapiplayground.reyesoft.com/v2/authors?filter[id]=9
+  Future<Author> getAuthor({int id}){}
 
-  Future<Book> getBook({int forID}) {}
+  Future<Book> getBook({int id}) {}
 
   Future<Store> getBooks({int forStore}) {}
 
-  Future<>
 }
