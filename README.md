@@ -1,16 +1,30 @@
-# author_hub
+<h1 align="center">Welcome to authorHub 👋</h1>
+<p>
+</p>
 
-A new Flutter project.
+> This is a test project that seeks to exemplify best development practices for flutter, in test driven development, model automation, and statemanagement.
 
-## Getting Started
+## Run tests
 
-This project is a starting point for a Flutter application.
+```sh
+flutter test
+```
 
-A few resources to get you started if this is your first Flutter project:
+## Author
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+👤 **Caleb Maccarone**
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+* Website: www.qevka.com
+* Github: [@qevka](https://github.com/qevka)
+* LinkedIn: [@maccarone](https://linkedin.com/in/maccarone)
+
+## 🤝 Contributing
+
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/qevka/authorHub/issues). 
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
+***
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
