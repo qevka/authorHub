@@ -39,9 +39,9 @@ extension DataTypeExtension on DataType {
     return toString().split(".").last;
   }
 
-  static DataType tryParse(dynamic str) {
+  static DataType tryParse(String str) {
     try {
-      return DataType.values.firstWhere((e) => e.stringVal == str);
+      return DataType.values.firstWhere((e) => e.stringVal == str.toLowerCase());
     } catch (ex) {
       print("DATATYPE NOT FOUND $ex");
       throw ex;

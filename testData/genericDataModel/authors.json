@@ -1,0 +1,35 @@
+{
+  "type": "authors",
+  "id": "1",
+  "attributes": {
+    "name": "Nettie McCullough",
+    "birthplace": "Guatemala",
+    "date_of_birth": "2015-11-21",
+    "date_of_death": "2021-01-13"
+  },
+  "relationships": {
+    "photos": {
+      "data": [
+        {
+          "type": "photos",
+          "id": "1"
+        },
+        {
+          "type": "photos",
+          "id": "2"
+        }
+      ]
+    },
+    "books": {
+      "data": [
+        {
+          "type": "books",
+          "id": "13"
+        }
+      ]
+    }
+  },
+  "links": {
+    "self": "/authors/1"
+  }
+}

@@ -17,7 +17,7 @@ class GenericDataModel<A extends Attribute> {
     return relationships.where((element) => element.type == ofType).toList();
   }
 
-  GenericDataModel.fromJson(Map<String, dynamic> json) {
+  GenericDataModel.fromAPI(Map<String, dynamic> json) {
     DataType type = DataTypeExtension.tryParse(json["type"]);
     this.type = type;
     id = json['id'] as String;
@@ -25,11 +25,11 @@ class GenericDataModel<A extends Attribute> {
     relationships = _returnPointers(json['relationships']);
   }
 
-  Map<String, dynamic> toJson(GenericDataModel instance) => <String, dynamic>{
-        'type': instance.type.stringVal,
-        'id': instance.id,
-        'attributes': instance.attributes,
-        'relationships': instance.relationships,
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'type': type.stringVal,
+        'id': id,
+        'attributes': attributes!.toJson(),
+        'relationships': relationships.map((e) => e.toJson()).toList(),
       };
 
   Attribute? attributeFromDataType({required Map<String, dynamic> json, required DataType type}) {
@@ -66,7 +66,7 @@ class GenericDataModel<A extends Attribute> {
         }
         // if single pointer add to list
       } else {
-        pointers.add(Pointer.fromJson(v));
+        pointers.add(Pointer.fromJson(v['data']));
       }
     });
     return pointers;

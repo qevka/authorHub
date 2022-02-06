@@ -6,4 +6,6 @@ export 'photo_attributes.dart';
 export 'series_attributes.dart';
 export 'store_attributes.dart';
 
-abstract class Attribute {}
+abstract class Attribute {
+  Map<String, dynamic> toJson();
+}

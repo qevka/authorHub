@@ -1,0 +1,49 @@
+{
+  "type": "books",
+  "id": "1",
+  "attributes": {
+    "title": "Brakus, Stokes and Jacobi",
+    "date_published": "1972-06-15",
+    "isbn": 4294967295
+  },
+  "relationships": {
+    "author": {
+      "data": {
+        "type": "authors",
+        "id": "17"
+      }
+    },
+    "chapters": {
+      "data": []
+    },
+    "photos": {
+      "data": [
+        {
+          "type": "photos",
+          "id": "151"
+        },
+        {
+          "type": "photos",
+          "id": "152"
+        }
+      ]
+    },
+    "series": {
+      "data": {
+        "type": "series",
+        "id": "20"
+      }
+    },
+    "stores": {
+      "data": [
+        {
+          "type": "stores",
+          "id": "43"
+        }
+      ]
+    }
+  },
+  "links": {
+    "self": "/books/1"
+  }
+}

@@ -1,4 +1,4 @@
-import 'package:author_hub/models/pointers/data/providers/authors_provider.dart';
+import 'package:author_hub/providers/authors_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
