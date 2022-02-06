@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'enums/data_types.dart';
+import 'data_types.dart';
 
 part 'pointer.g.dart';
 
@@ -8,8 +8,13 @@ part 'pointer.g.dart';
 class Pointer {
   Pointer();
 
-  late DataType type;
+  late DataType? type;
   late String id;
+  String? get dataEndPoint {
+    if (type != null) {
+      return type!.url + "/$id";
+    }
+  }
 
   factory Pointer.fromJson(Map<String, dynamic> json) => _$PointerFromJson(json);
   Map<String, dynamic> toJson() => _$PointerToJson(this);

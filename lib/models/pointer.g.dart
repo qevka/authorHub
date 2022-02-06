@@ -7,7 +7,7 @@ part of 'pointer.dart';
 // **************************************************************************
 
 Pointer _$PointerFromJson(Map<String, dynamic> json) => Pointer()
-  ..type = $enumDecode(_$DataTypeEnumMap, json['type'])
+  ..type = $enumDecodeNullable(_$DataTypeEnumMap, json['type'])
   ..id = json['id'] as String;
 
 Map<String, dynamic> _$PointerToJson(Pointer instance) => <String, dynamic>{
@@ -16,10 +16,13 @@ Map<String, dynamic> _$PointerToJson(Pointer instance) => <String, dynamic>{
     };
 
 const _$DataTypeEnumMap = {
-  DataType.photos: 'photos',
+  DataType.author: 'author',
   DataType.authors: 'authors',
-  DataType.countries: 'countries',
+  DataType.book: 'book',
   DataType.books: 'books',
-  DataType.series: 'series',
   DataType.chapters: 'chapters',
+  DataType.countries: 'countries',
+  DataType.photos: 'photos',
+  DataType.series: 'series',
+  DataType.stores: 'stores',
 };
