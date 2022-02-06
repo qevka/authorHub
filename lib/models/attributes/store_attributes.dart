@@ -13,5 +13,7 @@ class StoreAttributes extends Attribute {
   late num createdBy;
 
   factory StoreAttributes.fromJson(Map<String, dynamic> json) => _$StoreAttributesFromJson(json);
+
+  @override
   Map<String, dynamic> toJson() => _$StoreAttributesToJson(this);
 }

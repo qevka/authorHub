@@ -19,5 +19,7 @@ class AuthorAttributes extends Attribute {
   late String dod;
 
   factory AuthorAttributes.fromJson(Map<String, dynamic> json) => _$AuthorAttributesFromJson(json);
+
+  @override
   Map<String, dynamic> toJson() => _$AuthorAttributesToJson(this);
 }

@@ -7,20 +7,18 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class AuthorsProvider extends GetConnect {
-  late String _baseUrl = 'https://jsonapiplayground.reyesoft.com/v2/';
   final http.Client client;
 
   AuthorsProvider({required this.client});
 
-  @override
-  void onInit() {
-    _baseUrl = 'https://jsonapiplayground.reyesoft.com/v2/';
-  }
+  // @override
+  // void onInit() {
+  // }
 
   Future<List<GenericDataModel<AuthorAttributes>?>> getAuthors() async {
     final response = await client.get(Uri.parse(DataType.author.url));
     List<GenericDataModel<AuthorAttributes>> models = [];
-    jsonDecode(response.body)['data'].forEach((model) => models.add(GenericDataModel<AuthorAttributes>.fromJson(model)));
+    jsonDecode(response.body)['data'].forEach((model) => models.add(GenericDataModel<AuthorAttributes>.fromAPI(model)));
     return models;
   }
 

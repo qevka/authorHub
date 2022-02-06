@@ -44,7 +44,6 @@ extension DataTypeExtension on DataType {
       return DataType.values.firstWhere((e) => e.stringVal == str.toLowerCase());
     } catch (ex) {
       print("DATATYPE NOT FOUND $ex");
-      throw ex;
     }
     return DataType.author;
   }

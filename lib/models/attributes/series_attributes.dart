@@ -10,5 +10,7 @@ class SeriesAttributes extends Attribute {
   late String title;
 
   factory SeriesAttributes.fromJson(Map<String, dynamic> json) => _$SeriesAttributesFromJson(json);
+
+  @override
   Map<String, dynamic> toJson() => _$SeriesAttributesToJson(this);
 }

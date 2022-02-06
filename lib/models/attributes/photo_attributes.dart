@@ -11,5 +11,7 @@ class PhotoAttributes extends Attribute {
   late String uri;
 
   factory PhotoAttributes.fromJson(Map<String, dynamic> json) => _$PhotoAttributesFromJson(json);
+
+  @override
   Map<String, dynamic> toJson() => _$PhotoAttributesToJson(this);
 }

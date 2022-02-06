@@ -10,5 +10,7 @@ class CountryAttributes extends Attribute {
   late String name;
 
   factory CountryAttributes.fromJson(Map<String, dynamic> json) => _$CountryAttributesFromJson(json);
+
+  @override
   Map<String, dynamic> toJson() => _$CountryAttributesToJson(this);
 }

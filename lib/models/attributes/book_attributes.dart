@@ -13,5 +13,7 @@ class BookAttributes extends Attribute {
   late num isbn;
 
   factory BookAttributes.fromJson(Map<String, dynamic> json) => _$BookAttributesFromJson(json);
+
+  @override
   Map<String, dynamic> toJson() => _$BookAttributesToJson(this);
 }

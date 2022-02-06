@@ -11,5 +11,7 @@ class ChapterAttributes extends Attribute {
   late num ordering;
 
   factory ChapterAttributes.fromJson(Map<String, dynamic> json) => _$ChapterAttributesFromJson(json);
+
+  @override
   Map<String, dynamic> toJson() => _$ChapterAttributesToJson(this);
 }
