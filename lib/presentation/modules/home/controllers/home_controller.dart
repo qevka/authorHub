@@ -19,10 +19,10 @@ class HomeController extends GetxController {
     books.value = await ApiProvider.instance.getBooks();
   }
 
-  @override
-  void onReady() async {
-    super.onReady();
-  }
+  // @override
+  // void onReady() async {
+  //   super.onReady();
+  // }
 
   @override
   void onClose() {

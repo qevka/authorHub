@@ -20,14 +20,6 @@ class HomeView extends GetView<HomeController> {
     });
   }
 
-  Widget _buildBook() {
-    return Container(
-      width: 60,
-      height: 80,
-      color: Colors.blueGrey,
-    );
-  }
-
   Widget _buildFixedList(Color color, String _text) {
     return Material(
         child: Padding(
