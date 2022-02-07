@@ -1,8 +1,8 @@
 import 'generic_data_model.dart';
 
 class BookAndAuthor {
-  BookAndAuthor({required this.book, required this.author});
+  BookAndAuthor({required this.books, required this.author});
 
-  final List<Book> book;
+  List<Book> books = [];
   final Author author;
 }

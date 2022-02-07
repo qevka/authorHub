@@ -25,23 +25,17 @@ class ApiProvider {
   /// [client] a client is passed into this class so that it can be easily swapped out for testing purposes.
   late final http.Client _client;
 
-  late Function? dataDidLoad;
-
-  ApiProvider._() {
+  ApiProvider._warmUp() {
     _bookStream = BehaviorSubject();
     _storeStream = BehaviorSubject();
     _bookAndAuthorStream = BehaviorSubject();
   }
 
-  static ApiProvider instance = ApiProvider._();
+  static ApiProvider instance = ApiProvider._warmUp();
 
-  factory ApiProvider(http.Client client, Function dataLoaded) {
-    print("init");
-    instance.dataDidLoad = dataLoaded;
+  factory ApiProvider(http.Client client) {
     instance._client = client;
-    print("client");
     instance.getBooks();
-    print("books");
     instance.getAuthors();
     instance.getStores();
     return instance;
@@ -60,21 +54,20 @@ class ApiProvider {
     final response =
         await _client.get(Uri.parse(DataType.author.url + "?page[number]=$page&page[size]=$quantity&include=books"));
     List<BookAndAuthor> bookAndAuthors = [];
-    Map<String, Author> authors = {};
+    List<Author> authors = [];
     Map<String, Book> books = {};
-    jsonDecode(response.body)['data'].forEach((model) => authors[model['id']] = Author.fromAPI(model));
+    jsonDecode(response.body)['data'].forEach((model) => authors.add(Author.fromAPI(model)));
     for (var model in jsonDecode(response.body)['included']) {
       books[model['id']] = Book.fromAPI(model);
     }
-    authors.forEach((key, value) {
+    authors.forEach((author) {
       List<Book> bookz = [];
-      for (var element in value.getPointer(ofType: DataType.books)!) {
-        if (books.containsKey(element.id)) {
-          var book = books[element.id]!;
-          bookz.add(book);
-        }
+      for (var element in author.getPointer(ofType: DataType.books)!) {
+        var book = books[element.id]!;
+        bookz.add(book);
       }
-      bookAndAuthors.add(BookAndAuthor(book: bookz, author: value));
+      print(bookz.length);
+      bookAndAuthors.add(BookAndAuthor(books: bookz, author: author));
     });
     _bookAndAuthorStream.sink.add(bookAndAuthors);
   }
@@ -104,10 +97,6 @@ class ApiProvider {
       models.add(store);
     }
     _storeStream.sink.add(models);
-    if (dataDidLoad != null) {
-      dataDidLoad!();
-      dataDidLoad = null;
-    }
   }
 
   /// [getItem] returns a specific record of Type GenericDataModel<T> from the API.
