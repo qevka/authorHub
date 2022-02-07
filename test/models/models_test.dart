@@ -113,4 +113,13 @@ void main() {
       });
     });
   });
+
+  group("GenericDataModel: ", () {
+    test("multi-pointer", () async {
+      final genData = File('testData/genericDataModel.json');
+      final jsonData = jsonDecode(await genData.readAsString());
+      Store book = Store.fromAPI(jsonData);
+      expect(book.attributes!.address, "65346 Volkman Divide Suite 708");
+    });
+  });
 }
