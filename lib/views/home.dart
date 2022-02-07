@@ -163,7 +163,6 @@ class _SliverHeaderDelagate extends SliverPersistentHeaderDelegate {
       ),
     );
     // TODO: implement build
-    throw UnimplementedError();
   }
 
   @override

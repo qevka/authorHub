@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 import 'navigation/navigation.dart';
 
-void main() => runApp(new MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   MyApp();

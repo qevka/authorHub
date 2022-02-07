@@ -60,7 +60,7 @@ class ApiProvider {
     for (var model in jsonDecode(response.body)['included']) {
       books[model['id']] = Book.fromAPI(model);
     }
-    authors.forEach((author) {
+    for (var author in authors) {
       List<Book> bookz = [];
       for (var element in author.getPointer(ofType: DataType.books)!) {
         var book = books[element.id]!;
@@ -68,7 +68,7 @@ class ApiProvider {
       }
       print(bookz.length);
       bookAndAuthors.add(BookAndAuthor(books: bookz, author: author));
-    });
+    }
     _bookAndAuthorStream.sink.add(bookAndAuthors);
   }
 
