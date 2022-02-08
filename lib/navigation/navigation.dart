@@ -1,4 +1,6 @@
+import 'package:author_hub/views/detail.dart';
 import 'package:flutter/material.dart';
+import 'package:library_api/library_api.dart';
 
 class Navigation {
   final BuildContext _context;
@@ -9,8 +11,10 @@ class Navigation {
     Navigator.of(_context).pushNamed(Routes.home);
   }
 
-  void pushDetail() {
-    Navigator.of(_context).pushNamed(Routes.detail);
+  void pushDetail(
+    Author author,
+  ) {
+    Navigator.push(_context, MaterialPageRoute(builder: (context) => Detail(author: author)));
   }
 
   void pushSplash() {

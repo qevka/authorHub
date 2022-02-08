@@ -40,3 +40,6 @@ jobs:
         #Test library API
       - run: flutter analyze packages/library_api
       - run: flutter test packages/library_api
+        #Test library Repository
+      - run: flutter analyze packages/library_repository
+      - run: flutter test packages/library_repository

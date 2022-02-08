@@ -1,4 +1,3 @@
-import 'package:author_hub/views/detail.dart';
 import 'package:author_hub/views/home.dart';
 import 'package:author_hub/views/splash.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +25,6 @@ class MyApp extends StatelessWidget {
             return createRoute(context, Home());
           case Routes.detail:
             return createRoute(context, Splash());
-          case Routes.splash:
-            return createRoute(context, Detail());
         }
         return null;
       },

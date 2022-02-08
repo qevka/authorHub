@@ -7,14 +7,13 @@ import 'models/models.dart';
 class ApiClient {
   static final http.Client _client = http.Client();
 
-
   /// [getAuthors] returns a list of 'Authors' from the API.
   /// [page] - The page of items you would like to return (defaults to 1). But can be used for paging a list ect.
   /// [quantity] - The number of items to fetch with each page.
-  static Future<List<BookAndAuthor>> getAuthors({int page = 1, int quantity = 50}) async {
+  static Future<List<AuthorComplete>> getAuthors({int page = 1, int quantity = 50}) async {
     final response =
         await _client.get(Uri.parse(DataType.author.url + "?page[number]=$page&page[size]=$quantity&include=books"));
-    List<BookAndAuthor> bookAndAuthors = [];
+    List<AuthorComplete> bookAndAuthors = [];
     List<Author> authors = [];
     Map<String, Book> books = {};
     jsonDecode(response.body)['data'].forEach((model) => authors.add(Author.fromJson(model)));
@@ -27,7 +26,7 @@ class ApiClient {
         var book = books[element.id]!;
         bookz.add(book);
       }
-      bookAndAuthors.add(BookAndAuthor(books: bookz, author: author));
+      bookAndAuthors.add(AuthorComplete(books: bookz, author: author));
     }
     return bookAndAuthors;
   }
@@ -58,6 +57,19 @@ class ApiClient {
     return models;
   }
 
+  /// [getPhotos] returns a list of stores from the API
+  /// [page] - The page of items you would like to return (defaults to 1). But can be used for paging a list ect.
+  /// [quantity] - The number of items to fetch with each page.
+  static Future<List<Photo>> getPhotos({int page = 1, int quantity = 50}) async {
+    final response = await _client.get(Uri.parse(DataType.photos.url + "?page[number]=$page&page[size]=$quantity"));
+    List<Photo> photos = [];
+    for (var model in jsonDecode(response.body)['data']) {
+      var photo = Photo.fromJson(model);
+      photos.add(photo);
+    }
+    return photos;
+  }
+
   /// [getItem] returns a specific record of Type GenericDataModel<T> from the API.
   /// This can be used to lookup a book or author. Just pass it the DataType you are looking up and the Id you
   /// are looking for and it will return your item.
@@ -65,29 +77,29 @@ class ApiClient {
   /// ex.
   /// Photo photos = await getItem<Photo>(typeOf: DataType.photos, id: "1");
   /// print(photos.title);
-  Future<T> getItem<T>({required DataType typeOf, required String id}) async {
+  static Future<T> getItem<T>({required DataType typeOf, required String id}) async {
     final response = await _client.get(Uri.parse(typeOf.url + "/$id"));
     return _fromJson<T>(jsonDecode(response.body)['data'], typeOf);
   }
+}
 
-  T _fromJson<T>(Map<String, dynamic> json, DataType type) {
-    switch (type) {
-      case DataType.author:
-        return Author.fromJson(json) as T;
-      case DataType.authors:
-        return Author.fromJson(json) as T;
-      case DataType.photos:
-        return Photo.fromJson(json) as T;
-      case DataType.countries:
-        return Country.fromJson(json) as T;
-      case DataType.chapters:
-        return Chapter.fromJson(json) as T;
-      case DataType.books:
-        return Book.fromJson(json) as T;
-      case DataType.series:
-        return Series.fromJson(json) as T;
-      default:
-        throw ("invalid constructor type");
-    }
+T _fromJson<T>(Map<String, dynamic> json, DataType type) {
+  switch (type) {
+    case DataType.author:
+      return Author.fromJson(json) as T;
+    case DataType.authors:
+      return Author.fromJson(json) as T;
+    case DataType.photos:
+      return Photo.fromJson(json) as T;
+    case DataType.countries:
+      return Country.fromJson(json) as T;
+    case DataType.chapters:
+      return Chapter.fromJson(json) as T;
+    case DataType.books:
+      return Book.fromJson(json) as T;
+    case DataType.series:
+      return Series.fromJson(json) as T;
+    default:
+      throw ("invalid constructor type");
   }
 }

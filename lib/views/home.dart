@@ -1,3 +1,5 @@
+import 'package:author_hub/views/widgets/author_box.dart';
+import 'package:author_hub/views/widgets/book_card.dart';
 import 'package:flutter/material.dart';
 import 'package:library_api/library_api.dart';
 import 'package:library_repository/library_provider.dart';
@@ -18,77 +20,69 @@ class _HomeState extends State<Home> {
         Container(
           color: Colors.white,
         ),
-        StreamBuilder<List<BookAndAuthor>>(
+        StreamBuilder<List<AuthorComplete>>(
             stream: Provider.of<LibraryProvider>(context).bookAndAuthorStream,
             builder: (context, snapshot) {
               return CustomScrollView(
-                slivers: <Widget>[
-                  const SliverAppBar(
-                    floating: true,
-                    flexibleSpace: FlexibleSpaceBar(
-                      title: Text('AuthorHub'),
-                    ),
-                  ),
-                  Title(
-                    title: "BirthPlaces",
-                  ),
-                  SliverToBoxAdapter(
-                    child: Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width,
-                      child: ListView.builder(
-                        itemCount: snapshot.data?.length ?? 0,
-                        itemBuilder: (context, index) {
-                          List<Book>? book = snapshot.data![index].books;
-                          return (book.isNotEmpty)
-                              ? Container(
-                                  alignment: Alignment.centerLeft,
-                                  color: Colors.teal[100 * (index % 9)],
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15.0),
-                                    child: Material(
-                                      color: Colors.transparent,
-                                      child: Text(
-                                        book.first.title,
-                                        style: TextStyle(fontSize: 12, color: Colors.black38),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : Container(
-                                  height: 20,
-                                );
-                        },
-                        scrollDirection: Axis.horizontal,
-                      ),
-                    ),
-                  ),
-                  Title(
-                    title: "Authors",
-                  ),
-                  SliverFixedExtentList(
-                    itemExtent: 50.0,
-                    delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                        return Container(
-                          alignment: Alignment.centerLeft,
-                          color: Colors.lightBlue[100 * (index % 9)],
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Material(
-                              color: Colors.transparent,
-                              child: Text(
-                                snapshot.data![index].author.name!,
-                                style: TextStyle(fontSize: 20, color: Colors.black),
-                              ),
+                slivers: (snapshot.data == null)
+                    ? [
+                        SliverToBoxAdapter(
+                            child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height,
+                          child: Center(
+                              child: SafeArea(
+                                  child: Container(
+                            height: 40,
+                            width: 40,
+                            child: CircularProgressIndicator(),
+                            alignment: Alignment.bottomCenter,
+                          ))),
+                        ))
+                      ]
+                    : <Widget>[
+                        const SliverAppBar(
+                          floating: true,
+                          flexibleSpace: FlexibleSpaceBar(
+                            title: Text('AuthorHub'),
+                          ),
+                        ),
+                        Title(
+                          title: "Authors",
+                        ),
+                        SliverToBoxAdapter(
+                          child: Container(
+                            height: 140,
+                            width: MediaQuery.of(context).size.width,
+                            child: ListView.builder(
+                              itemCount: snapshot.data?.length ?? 0,
+                              itemBuilder: (context, index) {
+                                Author? author = snapshot.data?[index].author;
+                                return (author != null)
+                                    ? AuthorBox(author: author)
+                                    : Container(
+                                        height: 20,
+                                      );
+                              },
+                              scrollDirection: Axis.horizontal,
                             ),
                           ),
-                        );
-                      },
-                      childCount: snapshot.data?.length ?? 0,
-                    ),
-                  )
-                ],
+                        ),
+                        Title(
+                          title: "Books",
+                        ),
+                        SliverFixedExtentList(
+                          itemExtent: 100.0,
+                          delegate: SliverChildBuilderDelegate(
+                            (BuildContext context, int index) {
+                              List books =
+                                  snapshot.data!.where((auth) => (auth.books != null && auth.books.isNotEmpty)).toList();
+                              return BookCard(book: books[index].books.first);
+                            },
+                            childCount: snapshot.data?.length ?? 0,
+                          ),
+                        )
+                      ],
               );
             }),
       ],
