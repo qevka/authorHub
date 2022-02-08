@@ -12,7 +12,7 @@ class Navigation {
   }
 
   void pushDetail(
-    Author author,
+    AuthorComplete author,
   ) {
     Navigator.push(_context, MaterialPageRoute(builder: (context) => Detail(author: author)));
   }

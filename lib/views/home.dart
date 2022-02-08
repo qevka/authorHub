@@ -1,5 +1,7 @@
 import 'package:author_hub/views/widgets/author_box.dart';
 import 'package:author_hub/views/widgets/book_card.dart';
+import 'package:author_hub/views/widgets/sliver_title.dart';
+import 'package:author_hub/views/widgets/store_box.dart';
 import 'package:flutter/material.dart';
 import 'package:library_api/library_api.dart';
 import 'package:library_repository/library_provider.dart';
@@ -13,6 +15,20 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  Future<void> _refreshStreams() => Future.delayed(Duration(seconds: 2), () {
+        setState(() {
+          LibraryProvider.instance.init();
+          print("refreshedStreams");
+        });
+      });
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    LibraryProvider.instance.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -23,66 +39,99 @@ class _HomeState extends State<Home> {
         StreamBuilder<List<AuthorComplete>>(
             stream: Provider.of<LibraryProvider>(context).bookAndAuthorStream,
             builder: (context, snapshot) {
-              return CustomScrollView(
-                slivers: (snapshot.data == null)
-                    ? [
-                        SliverToBoxAdapter(
-                            child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height,
-                          child: Center(
-                              child: SafeArea(
-                                  child: Container(
-                            height: 40,
-                            width: 40,
-                            child: CircularProgressIndicator(),
-                            alignment: Alignment.bottomCenter,
-                          ))),
-                        ))
-                      ]
-                    : <Widget>[
-                        const SliverAppBar(
-                          floating: true,
-                          flexibleSpace: FlexibleSpaceBar(
-                            title: Text('AuthorHub'),
-                          ),
-                        ),
-                        Title(
-                          title: "Authors",
-                        ),
-                        SliverToBoxAdapter(
-                          child: Container(
-                            height: 140,
+              late List authorCompete;
+              if (snapshot.data != null) {
+                authorCompete = snapshot.data!.where((auth) => (auth.books.isNotEmpty)).toList();
+              }
+              return RefreshIndicator(
+                displacement: 200,
+                onRefresh: _refreshStreams,
+                child: CustomScrollView(
+                  slivers: (snapshot.data == null)
+                      ? <Widget>[
+                          SliverToBoxAdapter(
+                              child: Container(
                             width: MediaQuery.of(context).size.width,
-                            child: ListView.builder(
-                              itemCount: snapshot.data?.length ?? 0,
-                              itemBuilder: (context, index) {
-                                Author? author = snapshot.data?[index].author;
-                                return (author != null)
-                                    ? AuthorBox(author: author)
-                                    : Container(
-                                        height: 20,
-                                      );
-                              },
-                              scrollDirection: Axis.horizontal,
+                            height: MediaQuery.of(context).size.height,
+                            child: Center(
+                                child: SafeArea(
+                                    child: Container(
+                              height: 40,
+                              width: 40,
+                              child: CircularProgressIndicator(),
+                              alignment: Alignment.bottomCenter,
+                            ))),
+                          ))
+                        ]
+                      : <Widget>[
+                          SliverAppBar(
+                            leading: IconButton(icon: Icon(Icons.store), onPressed: () {}),
+                            floating: true,
+                            flexibleSpace: FlexibleSpaceBar(
+                              title: Text('AuthorHub'),
                             ),
                           ),
-                        ),
-                        Title(
-                          title: "Books",
-                        ),
-                        SliverFixedExtentList(
-                          itemExtent: 100.0,
-                          delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
-                              List books =
-                                  snapshot.data!.where((auth) => (auth.books != null && auth.books.isNotEmpty)).toList();
-                              return BookCard(book: books[index].books.first);
-                            },
-                            childCount: snapshot.data?.length ?? 0,
+                          SliverTitle(title: "Stores", pinned: false, color: Colors.grey),
+                          SliverToBoxAdapter(
+                            child: Container(
+                              height: 140,
+                              width: MediaQuery.of(context).size.width,
+                              child: StreamBuilder<List<Store>>(
+                                  stream: LibraryProvider.instance.storeStream,
+                                  builder: (context, snapshot) {
+                                    var haveData = (snapshot.data != null);
+                                    return !haveData
+                                        ? Container()
+                                        : ListView.builder(
+                                            itemCount: snapshot.data!.length,
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder: (context, index) {
+                                              return (snapshot.data != null)
+                                                  ? StoreBox(store: snapshot.data![index])
+                                                  : Container(
+                                                      height: 20,
+                                                    );
+                                            });
+                                  }),
+                            ),
                           ),
-                        )
-                      ],
+                          SliverTitle(title: "Authors", pinned: false, color: Colors.grey),
+                          SliverToBoxAdapter(
+                            child: Container(
+                              height: 140,
+                              width: MediaQuery.of(context).size.width,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: snapshot.data?.length ?? 0,
+                                itemBuilder: (context, index) {
+                                  AuthorComplete? author = snapshot.data?[index];
+                                  return (author != null)
+                                      ? AuthorBox(author: author)
+                                      : Container(
+                                          height: 20,
+                                        );
+                                },
+                              ),
+                            ),
+                          ),
+                          SliverTitle(
+                            title: "Books",
+                            color: Colors.lightBlue.shade200,
+                          ),
+                          SliverFixedExtentList(
+                            itemExtent: 100.0,
+                            delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index) {
+                                return BookCard(
+                                  book: authorCompete[index].books.first,
+                                  author: authorCompete[index],
+                                );
+                              },
+                              childCount: authorCompete.length,
+                            ),
+                          )
+                        ],
+                ),
               );
             }),
       ],
@@ -119,55 +168,5 @@ class Holder extends StatelessWidget {
         childCount: quantity,
       ),
     );
-  }
-}
-
-class Title extends StatelessWidget {
-  Title({required this.title});
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return SliverPersistentHeader(
-      delegate: _SliverHeaderDelagate(title: title),
-      pinned: true,
-    );
-  }
-}
-
-class _SliverHeaderDelagate extends SliverPersistentHeaderDelegate {
-  _SliverHeaderDelagate({required this.title});
-  final String title;
-
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      alignment: Alignment.centerLeft,
-      color: Colors.lightBlue,
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Material(
-          color: Colors.transparent,
-          child: Text(
-            title,
-            style: TextStyle(fontSize: 20, color: Colors.black),
-          ),
-        ),
-      ),
-    );
-    // TODO: implement build
-  }
-
-  @override
-  // TODO: implement maxExtent
-  double get maxExtent => 50;
-
-  @override
-  // TODO: implement minExtent
-  double get minExtent => 50;
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return false;
   }
 }

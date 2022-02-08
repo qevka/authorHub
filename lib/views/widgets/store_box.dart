@@ -1,22 +1,35 @@
-import 'package:author_hub/navigation/navigation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:library_api/library_api.dart';
+import 'package:library_repository/library_provider.dart';
 
-class AuthorBox extends StatelessWidget {
-  const AuthorBox({
+class StoreBox extends StatefulWidget {
+  const StoreBox({
     Key? key,
-    required this.author,
+    required this.store,
   }) : super(key: key);
 
-  final AuthorComplete author;
+  final Store store;
+
+  @override
+  State<StoreBox> createState() => _StoreBoxState();
+}
+
+class _StoreBoxState extends State<StoreBox> {
+  late bool isSelected;
 
   @override
   Widget build(BuildContext context) {
+    bool isSelected = (widget.store.id == LibraryProvider.instance.selectedStore?.id);
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () {
-          Navigation(context: context).pushDetail(author);
+          setState(() {
+            isSelected = !isSelected;
+          });
+          LibraryProvider.instance.sortStreams(byStore: widget.store);
         },
         child: Container(
           decoration: BoxDecoration(
@@ -24,7 +37,9 @@ class AuthorBox extends StatelessWidget {
               gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
-                  colors: [Colors.blueGrey.shade200, Colors.blueGrey.shade700])),
+                  colors: isSelected
+                      ? [Colors.blueGrey.shade200, Colors.blueGrey.shade700]
+                      : [Colors.blueGrey, Colors.blueGrey.shade700])),
           alignment: Alignment.centerLeft,
           child: Padding(
             padding: const EdgeInsets.all(15.0),
@@ -32,20 +47,12 @@ class AuthorBox extends StatelessWidget {
               color: Colors.transparent,
               child: Column(
                 children: [
-                  Container(
-                      height: 50,
-                      width: 50,
-                      child: Image.network("https://picsum.photos/200?random=2"),
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                      )),
                   Text(
-                    author.author.name!,
+                    widget.store.name,
                     style: TextStyle(fontSize: 20, color: Colors.black),
                   ),
                   Text(
-                    "born: " + author.author.birthplace!,
+                    "Address: " + widget.store.address,
                     style: TextStyle(fontSize: 12, color: Colors.black87),
                   )
                 ],

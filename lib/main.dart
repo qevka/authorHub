@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.blueAccent,
       ),
       color: Colors.blue,
+      debugShowCheckedModeBanner: false,
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case Routes.home:

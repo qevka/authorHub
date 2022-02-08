@@ -2,7 +2,7 @@ import 'package:library_api/library_api.dart';
 import 'package:rxdart/rxdart.dart';
 
 class LibraryProvider {
-  void init() async {
+  Future<void> init() async {
     _bookStream.add(await ApiClient.getBooks());
     _bookAndAuthorStream.add(await ApiClient.getAuthors());
     _storeStream.add(await ApiClient.getStores());
@@ -25,6 +25,9 @@ class LibraryProvider {
     }
     return instance;
   }
+
+  /// [selectedStore] the store user is currently selecting defaults to null when null the view returns to normal.
+  Store? selectedStore;
 
   /// [bookStream] a stream of book data.
   Stream<List<Book>> get bookStream => _bookStream.stream;
@@ -51,5 +54,28 @@ class LibraryProvider {
     _bookAndAuthorStream.close();
     _storeStream.close();
     _photoStream.close();
+  }
+
+  sortStreams({required Store byStore}) async {
+    if (selectedStore?.id == byStore.id) {
+      selectedStore = null;
+      await init();
+    } else {
+      await init();
+      selectedStore = byStore;
+      List<AuthorComplete> authorComplete = await bookAndAuthorStream.first;
+      List<Book> sortedBook = [];
+      List<AuthorComplete> sortedAuthor = [];
+      for (var book in byStore.getPointer(ofType: DataType.books)!) {
+        for (var author in authorComplete) {
+          var result = author.books.where((authbook) => authbook.id == book.id).toList();
+          sortedBook.addAll(result);
+          if (result.isNotEmpty) sortedAuthor.add(author);
+        }
+      }
+      print(byStore.relationships);
+      _bookAndAuthorStream.sink.add(sortedAuthor);
+      _bookStream.sink.add(sortedBook);
+    }
   }
 }
