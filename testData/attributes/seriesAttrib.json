@@ -1,3 +1,36 @@
 {
-  "title": "Series 5710110"
+  "type": "series",
+  "id": "1",
+  "attributes": {
+    "title": "Series 4221170"
+  },
+  "relationships": {
+    "photos": {
+      "data": [
+        {
+          "type": "photos",
+          "id": "101"
+        },
+        {
+          "type": "photos",
+          "id": "102"
+        }
+      ]
+    },
+    "books": {
+      "data": [
+        {
+          "type": "books",
+          "id": "26"
+        },
+        {
+          "type": "books",
+          "id": "38"
+        }
+      ]
+    }
+  },
+  "links": {
+    "self": "/series/1"
+  }
 }

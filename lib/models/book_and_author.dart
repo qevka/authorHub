@@ -1,4 +1,5 @@
-import 'generic_data_model.dart';
+import 'attributes/author.dart';
+import 'attributes/book.dart';
 
 class BookAndAuthor {
   BookAndAuthor({required this.books, required this.author});

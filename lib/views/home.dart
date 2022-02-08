@@ -1,5 +1,5 @@
+import 'package:author_hub/models/attributes/book.dart';
 import 'package:author_hub/models/book_and_author.dart';
-import 'package:author_hub/models/generic_data_model.dart';
 import 'package:author_hub/providers/library_api.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -50,7 +50,7 @@ class _HomeState extends State<Home> {
                                     child: Material(
                                       color: Colors.transparent,
                                       child: Text(
-                                        book.first.attributes!.title,
+                                        book.first.title,
                                         style: TextStyle(fontSize: 12, color: Colors.black38),
                                       ),
                                     ),
@@ -79,14 +79,14 @@ class _HomeState extends State<Home> {
                             child: Material(
                               color: Colors.transparent,
                               child: Text(
-                                snapshot.data![index].author.attributes?.name ?? "name",
+                                snapshot.data![index].author.name!,
                                 style: TextStyle(fontSize: 20, color: Colors.black),
                               ),
                             ),
                           ),
                         );
                       },
-                      childCount: snapshot.data!.length,
+                      childCount: snapshot.data?.length ?? 0,
                     ),
                   )
                 ],

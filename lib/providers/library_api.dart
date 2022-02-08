@@ -1,9 +1,10 @@
 import 'dart:convert';
 
-import 'package:author_hub/models/attributes/attribute_base.dart';
+import 'package:author_hub/models/attributes/author.dart';
+import 'package:author_hub/models/attributes/book.dart';
+import 'package:author_hub/models/attributes/store.dart';
 import 'package:author_hub/models/book_and_author.dart';
 import 'package:author_hub/models/data_types.dart';
-import 'package:author_hub/models/generic_data_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
 
@@ -56,9 +57,9 @@ class ApiProvider {
     List<BookAndAuthor> bookAndAuthors = [];
     List<Author> authors = [];
     Map<String, Book> books = {};
-    jsonDecode(response.body)['data'].forEach((model) => authors.add(Author.fromAPI(model)));
+    jsonDecode(response.body)['data'].forEach((model) => authors.add(Author.fromJson(model)));
     for (var model in jsonDecode(response.body)['included']) {
-      books[model['id']] = Book.fromAPI(model);
+      books[model['id']] = Book.fromJson(model);
     }
     for (var author in authors) {
       List<Book> bookz = [];
@@ -79,7 +80,7 @@ class ApiProvider {
     final response = await _client.get(Uri.parse(DataType.books.url + "?page[number]=$page&page[size]=$quantity"));
     List<Book> models = [];
     jsonDecode(response.body)['data'].forEach((model) {
-      var book = Book.fromAPI(model);
+      var book = Book.fromJson(model);
       models.add(book);
     });
     _bookStream.sink.add(models);
@@ -93,7 +94,7 @@ class ApiProvider {
     final response = await _client.get(Uri.parse(DataType.stores.url + "?page[number]=$page&page[size]=$quantity"));
     List<Store> models = [];
     for (var model in jsonDecode(response.body)['data']) {
-      var store = Store.fromAPI(model);
+      var store = Store.fromJson(model);
       models.add(store);
     }
     _storeStream.sink.add(models);
@@ -106,8 +107,8 @@ class ApiProvider {
   /// ex.
   /// Book book = getItem<Book>(typeOf:DataType.books,id: "1");
   /// print(book.isbn);   // ISBN: 3487934
-  Future<GenericDataModel<T>> getItem<T extends Attribute>({required DataType typeOf, required String id}) async {
-    final response = await _client.get(Uri.parse(typeOf.url + "/$id"));
-    return GenericDataModel<T>.fromAPI(jsonDecode(response.body)['data']);
-  }
+  // Future<T> getItem<T extends Attribute>({required DataType typeOf, required String id}) async {
+  //   final response = await _client.get(Uri.parse(typeOf.url + "/$id"));
+  //   return T.fromJson(jsonDecode(response.body)['data']);
+  // }
 }

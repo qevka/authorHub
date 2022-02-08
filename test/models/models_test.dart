@@ -1,7 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:author_hub/models/attributes/attribute_base.dart';
+import 'package:author_hub/models/attributes/author.dart';
+import 'package:author_hub/models/attributes/book.dart';
+import 'package:author_hub/models/attributes/chapter.dart';
+import 'package:author_hub/models/attributes/country.dart';
+import 'package:author_hub/models/attributes/photo.dart';
+import 'package:author_hub/models/attributes/series.dart';
+import 'package:author_hub/models/attributes/store.dart';
 import 'package:author_hub/models/data_types.dart';
 import 'package:author_hub/models/generic_data_model.dart';
 import 'package:author_hub/models/pointer.dart';
@@ -10,52 +16,70 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group("Attributes: ", () {
     test("Authors", () async {
-      final authorData = File('testData/attributes/authorAttrib.json');
+      final authorData = File('testData/attributes/author.json');
       final jsonData = jsonDecode(await authorData.readAsString());
-      AuthorAttributes authorAttrib = AuthorAttributes.fromJson(jsonData);
-      expect(authorAttrib.toJson(), jsonData);
+      print(jsonData['type']);
+      Author authorAttrib = Author.fromJson(jsonData);
+      expect(authorAttrib.name, "Prof. Antonio Heaney");
+      expect(authorAttrib.birthplace, "Micronesia");
+      expect(authorAttrib.dob, "2011-09-15");
+      expect(authorAttrib.dod, "2014-11-05");
+      expect(authorAttrib.getPointer(ofType: DataType.photos)![0].id, "1");
+      expect(authorAttrib.getPointer(ofType: DataType.books), []);
     });
 
     test("Books", () async {
       final bookData = File('testData/attributes/bookAttrib.json');
       final jsonData = jsonDecode(await bookData.readAsString());
-      BookAttributes bookAttrib = BookAttributes.fromJson(jsonData);
-      expect(bookAttrib.toJson(), jsonData);
+      Book book = Book.fromJson(jsonData);
+      expect(book.title, "O'Reilly, Deckow and Glover");
+      expect(book.datePublished, "1989-01-11");
+      expect(book.isbn, 4294967295);
+      expect(book.getPointer(ofType: DataType.authors)?[0].id, "47");
+      expect(book.getPointer(ofType: DataType.photos)?[0].id, "151");
     });
 
     test("Chapter", () async {
       final chapterData = File('testData/attributes/chapterAttrib.json');
       final jsonData = jsonDecode(await chapterData.readAsString());
-      ChapterAttributes chapterAttrib = ChapterAttributes.fromJson(jsonData);
-      expect(chapterAttrib.toJson(), jsonData);
+      Chapter chapter = Chapter.fromJson(jsonData);
+      expect(chapter.title, "Chapter 328");
+      expect(chapter.ordering, 1331102);
+      expect(chapter.getPointer(ofType: DataType.books)!.last.id, "16");
     });
 
     test("Country", () async {
       final countryData = File('testData/attributes/countryAttrib.json');
       final jsonData = jsonDecode(await countryData.readAsString());
-      CountryAttributes countryAttrib = CountryAttributes.fromJson(jsonData);
-      expect(countryAttrib.toJson(), jsonData);
+      Country country = Country.fromJson(jsonData);
+      expect(country.name, "Argentina");
+      expect(country.id, "AR");
     });
 
     test("Photo", () async {
       final photoData = File('testData/attributes/photoAttrib.json');
       final jsonData = jsonDecode(await photoData.readAsString());
-      PhotoAttributes photoAttrib = PhotoAttributes.fromJson(jsonData);
-      expect(photoAttrib.toJson(), jsonData);
+      Photo photo = Photo.fromJson(jsonData);
+      expect(photo.title, "Photo 954");
+      expect(photo.uri, "https://picsum.photos/id/130/400/300.jpg");
     });
 
     test("Series", () async {
       final seriesData = File('testData/attributes/seriesAttrib.json');
       final jsonData = jsonDecode(await seriesData.readAsString());
-      SeriesAttributes seriesAttrib = SeriesAttributes.fromJson(jsonData);
-      expect(seriesAttrib.toJson(), jsonData);
+      Series series = Series.fromJson(jsonData);
+      expect(series.title, "Series 4221170");
+      expect(series.getPointer(ofType: DataType.photos)!.last.id, "102");
     });
 
     test("Store", () async {
       final storeData = File('testData/attributes/storeAttrib.json');
       final jsonData = jsonDecode(await storeData.readAsString());
-      StoreAttributes storeAttrib = StoreAttributes.fromJson(jsonData);
-      expect(storeAttrib.toJson(), jsonData);
+      Store store = Store.fromJson(jsonData);
+      expect(store.name, "Store 417");
+      expect(store.address, "65346 Volkman Divide Suite 708");
+      expect(store.createdBy, 3);
+      expect(store.getPointer(ofType: DataType.books)!.last.id, "27");
     });
   });
 
@@ -65,31 +89,6 @@ void main() {
       final jsonData = jsonDecode(await pointerData.readAsString());
       Pointer pointer = Pointer.fromJson(jsonData);
       expect(pointer.toJson(), jsonData);
-    });
-  });
-
-  group("Generic Data Model: ", () {
-    test("Authors", () async {
-      final authorData = File('testData/genericDataModel/authors.json');
-      final jsonData = jsonDecode(await authorData.readAsString());
-      GenericDataModel<AuthorAttributes> author = GenericDataModel.fromAPI(jsonData);
-      expect(author.attributes!.name, "Nettie McCullough");
-      expect(author.attributes!.birthplace, "Guatemala");
-      expect(author.attributes!.dob, "2015-11-21");
-      expect(author.attributes!.dod, "2021-01-13");
-      expect(author.type.stringVal, "authors");
-      expect(author.getPointer(ofType: DataType.photos)![0].id, '1');
-      expect(author.getPointer(ofType: DataType.books)![0].id, '13');
-      expect(author.id, '1');
-    });
-
-    test("Books", () async {
-      final bookData = File('testData/genericDataModel/books.json');
-      final jsonData = jsonDecode(await bookData.readAsString());
-      GenericDataModel<BookAttributes> book = GenericDataModel.fromAPI(jsonData);
-      expect(book.attributes!.isbn, 4294967295);
-      expect(book.attributes!.datePublished, "1972-06-15");
-      expect(book.getPointer(ofType: DataType.chapters), []);
     });
   });
 
@@ -111,15 +110,6 @@ void main() {
         expect(DataTypeExtension.tryParse(string), type, reason: "Failed parsing");
         expect(type.stringVal, string, reason: "Failed returning string value");
       });
-    });
-  });
-
-  group("GenericDataModel: ", () {
-    test("multi-pointer", () async {
-      final genData = File('testData/genericDataModel.json');
-      final jsonData = jsonDecode(await genData.readAsString());
-      Store book = Store.fromAPI(jsonData);
-      expect(book.attributes!.address, "65346 Volkman Divide Suite 708");
     });
   });
 }

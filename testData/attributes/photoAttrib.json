@@ -1,4 +1,11 @@
 {
-  "title": "Photo 674",
-  "uri": "https://picsum.photos/id/739/400/300.jpg"
+  "type": "photos",
+  "id": "1",
+  "attributes": {
+    "title": "Photo 954",
+    "uri": "https://picsum.photos/id/130/400/300.jpg"
+  },
+  "links": {
+    "self": "/photos/1"
+  }
 }
