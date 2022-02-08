@@ -1,4 +1,4 @@
-import 'package:author_hub/models/generic_data_model.dart';
+import 'models.dart';
 
 class Chapter extends GenericDataModel {
   Chapter();

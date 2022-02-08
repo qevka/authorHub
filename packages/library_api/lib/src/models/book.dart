@@ -1,4 +1,4 @@
-import 'package:author_hub/models/generic_data_model.dart';
+import 'models.dart';
 
 class Book extends GenericDataModel {
   Book();

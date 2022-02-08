@@ -1,5 +1,5 @@
-import 'attributes/author.dart';
-import 'attributes/book.dart';
+import 'author.dart';
+import 'book.dart';
 
 class BookAndAuthor {
   BookAndAuthor({required this.books, required this.author});

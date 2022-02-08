@@ -1,17 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:author_hub/models/attributes/author.dart';
-import 'package:author_hub/models/attributes/book.dart';
-import 'package:author_hub/models/attributes/chapter.dart';
-import 'package:author_hub/models/attributes/country.dart';
-import 'package:author_hub/models/attributes/photo.dart';
-import 'package:author_hub/models/attributes/series.dart';
-import 'package:author_hub/models/attributes/store.dart';
-import 'package:author_hub/models/data_types.dart';
-import 'package:author_hub/models/generic_data_model.dart';
-import 'package:author_hub/models/pointer.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import '../../lib/src/models/models.dart';
 
 void main() {
   group("Attributes: ", () {

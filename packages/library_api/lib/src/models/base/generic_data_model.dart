@@ -1,8 +1,4 @@
-import 'package:author_hub/models/pointer.dart';
-
-import 'data_types.dart';
-
-export 'data_types.dart';
+import '../models.dart';
 
 abstract class GenericDataModel {
   GenericDataModel();

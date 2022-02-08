@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'data_types.dart';
+import 'enum/data_types.dart';
 
 part 'pointer.g.dart';
 

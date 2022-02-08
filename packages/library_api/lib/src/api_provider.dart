@@ -1,17 +1,9 @@
 import 'dart:convert';
 
-import 'package:author_hub/models/attributes/author.dart';
-import 'package:author_hub/models/attributes/book.dart';
-import 'package:author_hub/models/attributes/chapter.dart';
-import 'package:author_hub/models/attributes/country.dart';
-import 'package:author_hub/models/attributes/photo.dart';
-import 'package:author_hub/models/attributes/series.dart';
-import 'package:author_hub/models/attributes/store.dart';
-import 'package:author_hub/models/book_and_author.dart';
-import 'package:author_hub/models/data_types.dart';
-import 'package:author_hub/models/generic_data_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
+
+import 'models/models.dart';
 
 class ApiProvider {
   /// [bookStream] a stream of book data.
