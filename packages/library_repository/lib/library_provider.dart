@@ -73,7 +73,6 @@ class LibraryProvider {
           if (result.isNotEmpty) sortedAuthor.add(author);
         }
       }
-      print(byStore.relationships);
       _bookAndAuthorStream.sink.add(sortedAuthor);
       _bookStream.sink.add(sortedBook);
     }
