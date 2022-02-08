@@ -38,5 +38,5 @@ jobs:
         #Test API
       - run: flutter test
         #Test library API
-      - run: cd cd packages/library_api/
+      - run: cd packages/library_api/
       - run: flutter test
