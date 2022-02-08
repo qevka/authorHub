@@ -1,54 +1,17 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:rxdart/rxdart.dart';
 
 import 'models/models.dart';
 
-class ApiProvider {
-  /// [bookStream] a stream of book data.
-  Stream<List<Book>> get bookStream => _bookStream.stream;
+class ApiClient {
+  static final http.Client _client = http.Client();
 
-  /// [authorStream] a stream of authorData
-  Stream<List<BookAndAuthor>> get bookAndAuthorStream => _bookAndAuthorStream.stream;
-
-  /// [storeStream] a stream of stores
-  Stream<List<Store>> get storeStream => _storeStream.stream;
-
-  /// Private stream controllers.
-  late BehaviorSubject<List<Book>> _bookStream;
-  late BehaviorSubject<List<BookAndAuthor>> _bookAndAuthorStream;
-  late BehaviorSubject<List<Store>> _storeStream;
-
-  /// [client] a client is passed into this class so that it can be easily swapped out for testing purposes.
-  late final http.Client _client;
-
-  ApiProvider._warmUp() {
-    _bookStream = BehaviorSubject();
-    _storeStream = BehaviorSubject();
-    _bookAndAuthorStream = BehaviorSubject();
-  }
-
-  static ApiProvider instance = ApiProvider._warmUp();
-
-  factory ApiProvider(http.Client client) {
-    instance._client = client;
-    instance.getBooks();
-    instance.getAuthors();
-    instance.getStores();
-    return instance;
-  }
-
-  void dispose() {
-    _bookStream.close();
-    _bookAndAuthorStream.close();
-    _storeStream.close();
-  }
 
   /// [getAuthors] returns a list of 'Authors' from the API.
   /// [page] - The page of items you would like to return (defaults to 1). But can be used for paging a list ect.
   /// [quantity] - The number of items to fetch with each page.
-  Future<void> getAuthors({int page = 1, int quantity = 50}) async {
+  static Future<List<BookAndAuthor>> getAuthors({int page = 1, int quantity = 50}) async {
     final response =
         await _client.get(Uri.parse(DataType.author.url + "?page[number]=$page&page[size]=$quantity&include=books"));
     List<BookAndAuthor> bookAndAuthors = [];
@@ -66,35 +29,33 @@ class ApiProvider {
       }
       bookAndAuthors.add(BookAndAuthor(books: bookz, author: author));
     }
-    _bookAndAuthorStream.sink.add(bookAndAuthors);
+    return bookAndAuthors;
   }
 
   /// [getBooks] returns a list of Books from the API
   /// [page] - The page of items you would like to return (defaults to 1). But can be used for paging a list ect.
   /// [quantity] - The number of items to fetch with each page.
-  Future<List<Book>> getBooks({int page = 1, int quantity = 50}) async {
+  static Future<List<Book>> getBooks({int page = 1, int quantity = 50}) async {
     final response = await _client.get(Uri.parse(DataType.books.url + "?page[number]=$page&page[size]=$quantity"));
     List<Book> models = [];
     jsonDecode(response.body)['data'].forEach((model) {
       var book = Book.fromJson(model);
       models.add(book);
     });
-
-    _bookStream.sink.add(models);
     return models;
   }
 
   /// [getStores] returns a list of stores from the API
   /// [page] - The page of items you would like to return (defaults to 1). But can be used for paging a list ect.
   /// [quantity] - The number of items to fetch with each page.
-  Future<void> getStores({int page = 1, int quantity = 50}) async {
+  static Future<List<Store>> getStores({int page = 1, int quantity = 50}) async {
     final response = await _client.get(Uri.parse(DataType.stores.url + "?page[number]=$page&page[size]=$quantity"));
     List<Store> models = [];
     for (var model in jsonDecode(response.body)['data']) {
       var store = Store.fromJson(model);
       models.add(store);
     }
-    _storeStream.sink.add(models);
+    return models;
   }
 
   /// [getItem] returns a specific record of Type GenericDataModel<T> from the API.
