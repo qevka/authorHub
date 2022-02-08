@@ -2,15 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-
-import '../../lib/src/models/models.dart';
+import 'package:library_api/src/models/models.dart';
 
 void main() {
   group("Attributes: ", () {
     test("Authors", () async {
       final authorData = File('testData/attributes/author.json');
       final jsonData = jsonDecode(await authorData.readAsString());
-      print(jsonData['type']);
       Author authorAttrib = Author.fromJson(jsonData);
       expect(authorAttrib.name, "Prof. Antonio Heaney");
       expect(authorAttrib.birthplace, "Micronesia");

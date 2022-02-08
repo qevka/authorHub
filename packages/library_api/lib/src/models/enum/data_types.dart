@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 enum DataType {
   author,
   authors,
@@ -43,7 +45,7 @@ extension DataTypeExtension on DataType {
     try {
       return DataType.values.firstWhere((e) => e.stringVal == str.toLowerCase());
     } catch (ex) {
-      print("DATATYPE NOT FOUND $ex");
+      debugPrint("DATATYPE NOT FOUND $ex");
     }
     return DataType.author;
   }
