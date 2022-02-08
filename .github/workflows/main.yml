@@ -34,5 +34,12 @@ jobs:
         with:
           flutter-version: 2.5.3
       - run: flutter pub get
+        #Test API
       - run: flutter analyze
       - run: flutter test
+        #Test library API
+      - run: flutter analyze packages/library_api
+      - run: flutter test packages/library_api
+        #Test library Repository
+      - run: flutter analyze packages/library_repository
+      - run: flutter test packages/library_repository

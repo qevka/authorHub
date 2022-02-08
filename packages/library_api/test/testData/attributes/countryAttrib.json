@@ -1,0 +1,10 @@
+{
+  "type": "countries",
+  "id": "AR",
+  "attributes": {
+    "name": "Argentina"
+  },
+  "links": {
+    "self": "/countries/AR"
+  }
+}

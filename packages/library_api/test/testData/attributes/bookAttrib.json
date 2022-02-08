@@ -1,0 +1,49 @@
+{
+  "type": "books",
+  "id": "1",
+  "attributes": {
+    "title": "O'Reilly, Deckow and Glover",
+    "date_published": "1989-01-11",
+    "isbn": 4294967295
+  },
+  "relationships": {
+    "author": {
+      "data": {
+        "type": "authors",
+        "id": "47"
+      }
+    },
+    "chapters": {
+      "data": []
+    },
+    "photos": {
+      "data": [
+        {
+          "type": "photos",
+          "id": "151"
+        },
+        {
+          "type": "photos",
+          "id": "152"
+        }
+      ]
+    },
+    "series": {
+      "data": {
+        "type": "series",
+        "id": "46"
+      }
+    },
+    "stores": {
+      "data": [
+        {
+          "type": "stores",
+          "id": "20"
+        }
+      ]
+    }
+  },
+  "links": {
+    "self": "/books/1"
+  }
+}

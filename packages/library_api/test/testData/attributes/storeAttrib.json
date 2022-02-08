@@ -1,0 +1,40 @@
+{
+  "type": "stores",
+  "id": "1",
+  "attributes": {
+    "name": "Store 417",
+    "address": "65346 Volkman Divide Suite 708",
+    "created_by": 3
+  },
+  "relationships": {
+    "photos": {
+      "data": [
+        {
+          "type": "photos",
+          "id": "51"
+        },
+        {
+          "type": "photos",
+          "id": "52"
+        }
+      ]
+    },
+    "books": {
+      "data": [
+        {
+          "type": "books",
+          "id": "27"
+        }
+      ]
+    },
+    "countries": {
+      "data": {
+        "type": "countries",
+        "id": "AR"
+      }
+    }
+  },
+  "links": {
+    "self": "/stores/1"
+  }
+}

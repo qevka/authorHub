@@ -1,0 +1,27 @@
+{
+  "type": "chapters",
+  "id": "1",
+  "attributes": {
+    "title": "Chapter 328",
+    "ordering": 1331102
+  },
+  "relationships": {
+    "photos": {
+      "data": [
+        {
+          "type": "photos",
+          "id": "201"
+        }
+      ]
+    },
+    "book": {
+      "data": {
+        "type": "books",
+        "id": "16"
+      }
+    }
+  },
+  "links": {
+  "self": "/chapters/1"
+  }
+}
