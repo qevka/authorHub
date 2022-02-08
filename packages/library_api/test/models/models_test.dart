@@ -7,7 +7,7 @@ import 'package:library_api/src/models/models.dart';
 void main() {
   group("Attributes: ", () {
     test("Authors", () async {
-      final authorData = File('testData/attributes/author.json');
+      final authorData = File('packages/library_api/test/testData/attributes/author.json');
       final jsonData = jsonDecode(await authorData.readAsString());
       Author authorAttrib = Author.fromJson(jsonData);
       expect(authorAttrib.name, "Prof. Antonio Heaney");
@@ -19,7 +19,7 @@ void main() {
     });
 
     test("Books", () async {
-      final bookData = File('testData/attributes/bookAttrib.json');
+      final bookData = File('packages/library_api/test/testData/attributes/bookAttrib.json');
       final jsonData = jsonDecode(await bookData.readAsString());
       Book book = Book.fromJson(jsonData);
       expect(book.title, "O'Reilly, Deckow and Glover");
@@ -30,7 +30,7 @@ void main() {
     });
 
     test("Chapter", () async {
-      final chapterData = File('testData/attributes/chapterAttrib.json');
+      final chapterData = File('packages/library_api/test/testData/attributes/chapterAttrib.json');
       final jsonData = jsonDecode(await chapterData.readAsString());
       Chapter chapter = Chapter.fromJson(jsonData);
       expect(chapter.title, "Chapter 328");
@@ -39,7 +39,7 @@ void main() {
     });
 
     test("Country", () async {
-      final countryData = File('testData/attributes/countryAttrib.json');
+      final countryData = File('packages/library_api/test/testData/attributes/countryAttrib.json');
       final jsonData = jsonDecode(await countryData.readAsString());
       Country country = Country.fromJson(jsonData);
       expect(country.name, "Argentina");
@@ -47,7 +47,7 @@ void main() {
     });
 
     test("Photo", () async {
-      final photoData = File('testData/attributes/photoAttrib.json');
+      final photoData = File('packages/library_api/test/testData/attributes/photoAttrib.json');
       final jsonData = jsonDecode(await photoData.readAsString());
       Photo photo = Photo.fromJson(jsonData);
       expect(photo.title, "Photo 954");
@@ -55,7 +55,7 @@ void main() {
     });
 
     test("Series", () async {
-      final seriesData = File('testData/attributes/seriesAttrib.json');
+      final seriesData = File('packages/library_api/test/testData/attributes/seriesAttrib.json');
       final jsonData = jsonDecode(await seriesData.readAsString());
       Series series = Series.fromJson(jsonData);
       expect(series.title, "Series 4221170");
@@ -63,7 +63,7 @@ void main() {
     });
 
     test("Store", () async {
-      final storeData = File('testData/attributes/storeAttrib.json');
+      final storeData = File('packages/library_api/test/testData/attributes/storeAttrib.json');
       final jsonData = jsonDecode(await storeData.readAsString());
       Store store = Store.fromJson(jsonData);
       expect(store.name, "Store 417");
@@ -75,7 +75,7 @@ void main() {
 
   group("Relationships: ", () {
     test("pointer", () async {
-      final pointerData = File('testData/pointer.json');
+      final pointerData = File('packages/library_api/test/testData/pointer.json');
       final jsonData = jsonDecode(await pointerData.readAsString());
       Pointer pointer = Pointer.fromJson(jsonData);
       expect(pointer.toJson(), jsonData);
