@@ -1,9 +1,8 @@
-import 'package:author_hub/providers/library_api.dart';
 import 'package:author_hub/views/detail.dart';
 import 'package:author_hub/views/home.dart';
 import 'package:author_hub/views/splash.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:library_repository/library_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'navigation/navigation.dart';
@@ -34,9 +33,7 @@ class MyApp extends StatelessWidget {
       },
       builder: (_, navigator) {
         return MultiProvider(providers: [
-          Provider<ApiProvider>(
-            create: (context) => ApiProvider(http.Client()),
-          ),
+          Provider<LibraryProvider>(create: (context) => LibraryProvider()),
         ], child: navigator);
       },
     );

@@ -1,7 +1,6 @@
-import 'package:author_hub/models/attributes/book.dart';
-import 'package:author_hub/models/book_and_author.dart';
-import 'package:author_hub/providers/library_api.dart';
 import 'package:flutter/material.dart';
+import 'package:library_api/library_api.dart';
+import 'package:library_repository/library_provider.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
@@ -20,7 +19,7 @@ class _HomeState extends State<Home> {
           color: Colors.white,
         ),
         StreamBuilder<List<BookAndAuthor>>(
-            stream: Provider.of<ApiProvider>(context).bookAndAuthorStream,
+            stream: Provider.of<LibraryProvider>(context).bookAndAuthorStream,
             builder: (context, snapshot) {
               return CustomScrollView(
                 slivers: <Widget>[

@@ -35,4 +35,9 @@ jobs:
           flutter-version: 2.5.3
       - run: flutter pub get
       - run: flutter analyze
+        #Test API
+      - run: flutter test
+        #Test library API
+      - run: cd packages
+      - run: cd library_api
       - run: flutter test
