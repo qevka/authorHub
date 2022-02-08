@@ -27,7 +27,7 @@ extension DataTypeExtension on DataType {
       case DataType.countries:
         return "https://jsonapiplayground.reyesoft.com/v2/countries";
       case DataType.photos:
-        return "https://jsonapiplayground.reyesoft.com/v2/photo";
+        return "https://jsonapiplayground.reyesoft.com/v2/photos";
       case DataType.series:
         return "https://jsonapiplayground.reyesoft.com/v2/series";
       case DataType.stores:

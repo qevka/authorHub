@@ -2,9 +2,14 @@ import 'dart:convert';
 
 import 'package:author_hub/models/attributes/author.dart';
 import 'package:author_hub/models/attributes/book.dart';
+import 'package:author_hub/models/attributes/chapter.dart';
+import 'package:author_hub/models/attributes/country.dart';
+import 'package:author_hub/models/attributes/photo.dart';
+import 'package:author_hub/models/attributes/series.dart';
 import 'package:author_hub/models/attributes/store.dart';
 import 'package:author_hub/models/book_and_author.dart';
 import 'package:author_hub/models/data_types.dart';
+import 'package:author_hub/models/generic_data_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
 
@@ -67,7 +72,6 @@ class ApiProvider {
         var book = books[element.id]!;
         bookz.add(book);
       }
-      print(bookz.length);
       bookAndAuthors.add(BookAndAuthor(books: bookz, author: author));
     }
     _bookAndAuthorStream.sink.add(bookAndAuthors);
@@ -83,6 +87,7 @@ class ApiProvider {
       var book = Book.fromJson(model);
       models.add(book);
     });
+
     _bookStream.sink.add(models);
     return models;
   }
@@ -105,10 +110,31 @@ class ApiProvider {
   /// are looking for and it will return your item.
   ///
   /// ex.
-  /// Book book = getItem<Book>(typeOf:DataType.books,id: "1");
-  /// print(book.isbn);   // ISBN: 3487934
-  // Future<T> getItem<T extends Attribute>({required DataType typeOf, required String id}) async {
-  //   final response = await _client.get(Uri.parse(typeOf.url + "/$id"));
-  //   return T.fromJson(jsonDecode(response.body)['data']);
-  // }
+  /// Photo photos = await getItem<Photo>(typeOf: DataType.photos, id: "1");
+  /// print(photos.title);
+  Future<T> getItem<T>({required DataType typeOf, required String id}) async {
+    final response = await _client.get(Uri.parse(typeOf.url + "/$id"));
+    return _fromJson<T>(jsonDecode(response.body)['data'], typeOf);
+  }
+
+  T _fromJson<T>(Map<String, dynamic> json, DataType type) {
+    switch (type) {
+      case DataType.author:
+        return Author.fromJson(json) as T;
+      case DataType.authors:
+        return Author.fromJson(json) as T;
+      case DataType.photos:
+        return Photo.fromJson(json) as T;
+      case DataType.countries:
+        return Country.fromJson(json) as T;
+      case DataType.chapters:
+        return Chapter.fromJson(json) as T;
+      case DataType.books:
+        return Book.fromJson(json) as T;
+      case DataType.series:
+        return Series.fromJson(json) as T;
+      default:
+        throw ("invalid constructor type");
+    }
+  }
 }

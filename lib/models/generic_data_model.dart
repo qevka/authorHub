@@ -4,7 +4,7 @@ import 'data_types.dart';
 
 export 'data_types.dart';
 
-class GenericDataModel {
+abstract class GenericDataModel {
   GenericDataModel();
 
   late DataType type;
